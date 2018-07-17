@@ -4,6 +4,7 @@ import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.MutableLiveData;
 
+import com.bsaugues.passmanager.data.entity.SingleLiveEvent;
 import com.bsaugues.passmanager.data.entity.model.ReservationEntity;
 import com.bsaugues.passmanager.data.repository.ContentRepository;
 
@@ -21,7 +22,7 @@ public class ReservationDetailsViewModel extends AndroidViewModel {
 
     private CompositeDisposable disposables;
     private MutableLiveData<ReservationEntity> reservationLiveData;
-    private MutableLiveData<Throwable> errorLiveData;
+    private SingleLiveEvent<Throwable> errorLiveData;
 
     @Inject
     public ReservationDetailsViewModel(Application application, ContentRepository contentRepository) {
@@ -29,7 +30,7 @@ public class ReservationDetailsViewModel extends AndroidViewModel {
         this.contentRepository = contentRepository;
         this.disposables = new CompositeDisposable();
         this.reservationLiveData = new MutableLiveData<>();
-        this.errorLiveData = new MutableLiveData<>();
+        this.errorLiveData = new SingleLiveEvent<>();
     }
 
     @Override
@@ -43,7 +44,7 @@ public class ReservationDetailsViewModel extends AndroidViewModel {
         return reservationLiveData;
     }
 
-    public MutableLiveData<Throwable> getErrorLiveData() {
+    public SingleLiveEvent<Throwable> getErrorLiveData() {
         return errorLiveData;
     }
 

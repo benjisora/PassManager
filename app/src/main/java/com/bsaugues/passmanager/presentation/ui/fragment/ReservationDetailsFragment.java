@@ -1,6 +1,7 @@
 package com.bsaugues.passmanager.presentation.ui.fragment;
 
 import android.arch.lifecycle.Observer;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,6 +13,8 @@ import android.widget.TextView;
 import com.bsaugues.passmanager.R;
 import com.bsaugues.passmanager.data.entity.model.ReservationEntity;
 import com.bsaugues.passmanager.data.utils.DateFormatUtils;
+import com.bsaugues.passmanager.data.values.nav.NavEvent;
+import com.bsaugues.passmanager.data.values.nav.NavEventTypeValues;
 import com.bsaugues.passmanager.presentation.component.ErrorRendererComponent;
 import com.bsaugues.passmanager.presentation.viewmodel.ReservationDetailsViewModel;
 
@@ -52,6 +55,12 @@ public class ReservationDetailsFragment extends BaseVMBottomSheetDialogFragment<
     }
 
     @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        navEvent.postValue(new NavEvent(NavEventTypeValues.NOTIFY_BOTTOM_SHEET_CLOSED));
+    }
+
+    @Override
     int getLayoutId() {
         return R.layout.fragment_bottom_sheet_reservation_details;
     }
@@ -63,16 +72,16 @@ public class ReservationDetailsFragment extends BaseVMBottomSheetDialogFragment<
 
     @Override
     void initObservers() {
-        viewModel.getReservationLiveData().observe(this, new Observer<ReservationEntity>() {
-            @Override
-            public void onChanged(@Nullable ReservationEntity reservation) {
-                showReservationDetails(reservation);
-            }
-        });
         viewModel.getErrorLiveData().observe(this, new Observer<Throwable>() {
             @Override
             public void onChanged(@Nullable Throwable throwable) {
                 showError(throwable);
+            }
+        });
+        viewModel.getReservationLiveData().observe(this, new Observer<ReservationEntity>() {
+            @Override
+            public void onChanged(@Nullable ReservationEntity reservation) {
+                showReservationDetails(reservation);
             }
         });
     }

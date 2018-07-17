@@ -1,5 +1,8 @@
 package com.bsaugues.passmanager.presentation.component.dialog;
 
+import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.LifecycleObserver;
+import android.arch.lifecycle.OnLifecycleEvent;
 import android.support.annotation.NonNull;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -8,7 +11,7 @@ import com.bsaugues.passmanager.presentation.ui.activity.BaseActivity;
 
 import javax.inject.Inject;
 
-public class DialogComponentImpl implements DialogComponent {
+public class DialogComponentImpl implements DialogComponent, LifecycleObserver {
 
     private final BaseActivity activity;
 
@@ -17,17 +20,20 @@ public class DialogComponentImpl implements DialogComponent {
     @Inject
     public DialogComponentImpl(BaseActivity activity) {
         this.activity = activity;
+        observeLifeCycle();
     }
 
     @Override
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     public void dismissDialog() {
-        if (materialDialog != null && materialDialog.isShowing()) {
+        if (isDialogDisplayed()) {
             materialDialog.dismiss();
         }
     }
 
     @Override
     public void displaySingleChoiceDialog(final SingleChoiceListener dualChoiceListener, int title, int content, int positiveText) {
+        dismissDialog();
         materialDialog = new MaterialDialog.Builder(activity)
                 .title(title)
                 .content(content)
@@ -43,6 +49,7 @@ public class DialogComponentImpl implements DialogComponent {
 
     @Override
     public void displaySingleChoiceForcedDialog(final SingleChoiceListener singleChoiceListener, int title, int content, int positiveText) {
+        dismissDialog();
         materialDialog = new MaterialDialog.Builder(activity)
                 .title(title)
                 .content(content)
@@ -59,6 +66,7 @@ public class DialogComponentImpl implements DialogComponent {
 
     @Override
     public void displayDualChoiceDialog(final DualChoiceListener dualChoiceListener, int title, int content, int positiveText, int negativeText) {
+        dismissDialog();
         materialDialog = new MaterialDialog.Builder(activity)
                 .title(title)
                 .content(content)
@@ -81,6 +89,7 @@ public class DialogComponentImpl implements DialogComponent {
 
     @Override
     public void displayDualChoiceForcedDialog(final DualChoiceListener dualChoiceListener, int title, int content, int positiveText, int negativeText) {
+        dismissDialog();
         materialDialog = new MaterialDialog.Builder(activity)
                 .title(title)
                 .content(content)
@@ -105,5 +114,9 @@ public class DialogComponentImpl implements DialogComponent {
     @Override
     public boolean isDialogDisplayed() {
         return materialDialog != null && materialDialog.isShowing();
+    }
+
+    private void observeLifeCycle() {
+        this.activity.getLifecycle().addObserver(this);
     }
 }

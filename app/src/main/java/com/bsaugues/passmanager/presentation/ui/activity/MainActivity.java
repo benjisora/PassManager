@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.bsaugues.passmanager.R;
+import com.bsaugues.passmanager.presentation.component.dialog.DialogComponent;
 import com.bsaugues.passmanager.presentation.navigator.MainNavigator;
 import com.bsaugues.passmanager.presentation.viewmodel.MainViewModel;
 

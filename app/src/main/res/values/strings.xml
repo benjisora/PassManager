@@ -1,8 +1,22 @@
 <resources>
     <string name="app_name">Pass Manager</string>
-    <string name="default_error_message">Une erreur est survenue : (%s).</string>
-    <string name="error_empty_reservation">Réservation introuvable</string>
-    <string name="reservation_full_name_format">Nom: %s %s</string>
-    <string name="reservation_id_format">Identifiant: %s</string>
-    <string name="reservation_last_scan_format">Dernier scan: %s à %s</string>
+
+    <string name="fragment_code_scanner_input_text_hint">Reservation number</string>
+    <string name="fragment_code_scanner_validate_input_button_content">Search</string>
+
+    <string name="default_error_message">An error occurred: (%s).</string>
+    <string name="error_empty_reservation">Reservation not found.</string>
+
+    <string name="reservation_full_name_format">Name: %s %s</string>
+    <string name="reservation_id_format">Identifier: %s</string>
+    <string name="reservation_last_scan_format">Last scan: %s at %s</string>
+
+    <string name="dialog_action_allow">Allow</string>
+    <string name="dialog_action_deny">Deny</string>
+
+    <string name="dialog_rationale_camera_title">Required permission</string>
+    <string name="dialog_rationale_camera_content">Camera permission is needed to scan QR codes.</string>
+
+    <string name="dialog_last_attempt_camera_title">Permission denied</string>
+    <string name="dialog_last_attempt_camera_content">By denying camera permission, QR codes scan feature will be disabled. Please consider allowing it if you want to use this feature.</string>
 </resources>

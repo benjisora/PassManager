@@ -1,5 +1,6 @@
 package com.bsaugues.passmanager.presentation.component;
 
+import android.arch.lifecycle.LifecycleObserver;
 import android.graphics.Color;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -16,19 +17,20 @@ import javax.inject.Inject;
 import timber.log.Timber;
 
 @PerActivity
-public class ErrorRendererComponent {
+public class ErrorRendererComponent implements LifecycleObserver {
 
     public static final int ERROR_DISPLAY_MODE_NONE = 1;
     public static final int ERROR_DISPLAY_MODE_SNACKBAR = 2;
     public static final int ERROR_DISPLAY_MODE_TOAST = 3;
 
-    private Snackbar snackbar;
-
     private BaseActivity activity;
+
+    private Snackbar snackbar;
 
     @Inject
     public ErrorRendererComponent(BaseActivity baseActivity) {
         this.activity = baseActivity;
+        observeLifeCycle();
     }
 
     public void displayError(Throwable throwable) {
@@ -69,5 +71,9 @@ public class ErrorRendererComponent {
         if (snackbar != null && snackbar.isShown()) {
             snackbar.dismiss();
         }
+    }
+
+    private void observeLifeCycle() {
+        this.activity.getLifecycle().addObserver(this);
     }
 }

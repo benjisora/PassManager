@@ -2,6 +2,7 @@
     package="com.bsaugues.passmanager">
 
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
 
     <application
         android:name=".MainApplication"
