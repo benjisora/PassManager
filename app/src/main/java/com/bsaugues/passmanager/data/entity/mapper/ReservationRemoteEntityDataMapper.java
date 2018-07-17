@@ -1,7 +1,8 @@
 package com.bsaugues.passmanager.data.entity.mapper;
 
-import com.bsaugues.passmanager.data.entity.ReservationEntity;
+import com.bsaugues.passmanager.data.entity.model.ReservationEntity;
 import com.bsaugues.passmanager.data.entity.remote.ReservationRemoteEntity;
+import com.bsaugues.passmanager.data.exception.MapperException;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -26,6 +27,6 @@ public class ReservationRemoteEntityDataMapper {
             entity.setPassList(passRemoteEntityDataMapper.toEntities(remoteEntity.getPassList()));
             return entity;
         }
-        return null;
+        throw new MapperException();
     }
 }

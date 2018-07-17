@@ -1,4 +1,4 @@
-package com.bsaugues.passmanager.data.entity;
+package com.bsaugues.passmanager.data.entity.model;
 
 import com.bsaugues.passmanager.data.values.PassTypeValues;
 

@@ -43,7 +43,8 @@
             android:id="@+id/fragment_number_list_input_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Reservation number" />
+            android:hint="Reservation number"
+            android:inputType="number" />
 
     </android.support.design.widget.TextInputLayout>
 

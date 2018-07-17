@@ -19,7 +19,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
-@Singleton
 public class NetManagerImpl implements NetManager {
 
     private Gson gson;

@@ -3,9 +3,9 @@ package com.bsaugues.passmanager.presentation.viewmodel;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.MutableLiveData;
-import android.util.Log;
 
-import com.bsaugues.passmanager.data.entity.ReservationEntity;
+import com.bsaugues.passmanager.data.entity.SingleLiveEvent;
+import com.bsaugues.passmanager.data.entity.model.ReservationEntity;
 import com.bsaugues.passmanager.data.exception.InvalidInputException;
 import com.bsaugues.passmanager.data.repository.ContentRepository;
 
@@ -15,15 +15,14 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
 
 public class CodeScannerViewModel extends AndroidViewModel {
-
-    private static final String TAG = "CodeScannerViewModel";
 
     private ContentRepository contentRepository;
 
     private CompositeDisposable disposables;
-    private MutableLiveData<ReservationEntity> reservationLiveData;
+    private SingleLiveEvent<Boolean> receiveReservationLiveData;
     private MutableLiveData<Throwable> errorLiveData;
 
     @Inject
@@ -31,19 +30,19 @@ public class CodeScannerViewModel extends AndroidViewModel {
         super(application);
         this.contentRepository = contentRepository;
         this.disposables = new CompositeDisposable();
-        this.reservationLiveData = new MutableLiveData<>();
+        this.receiveReservationLiveData = new SingleLiveEvent<>();
         this.errorLiveData = new MutableLiveData<>();
     }
 
     @Override
     protected void onCleared() {
-        Log.d(TAG, "Activity destroyed, event received in " + this);
+        Timber.d("Activity destroyed, event received in %s", this);
         disposables.dispose();
         super.onCleared();
     }
 
-    public MutableLiveData<ReservationEntity> getReservationLiveData() {
-        return reservationLiveData;
+    public SingleLiveEvent<Boolean> getReceiveReservationLiveData() {
+        return receiveReservationLiveData;
     }
 
     public MutableLiveData<Throwable> getErrorLiveData() {
@@ -52,10 +51,10 @@ public class CodeScannerViewModel extends AndroidViewModel {
 
     public void retrieveReservationDetails(String id) {
         if (isValidInput(id)) {
-            disposables.add(contentRepository.getReservationDetails(id)
+            disposables.add(contentRepository.receiveReservationDetailsFromServer(id)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeWith(new DisposableObserver<ReservationEntity>() {
+                    .subscribeWith(new DisposableObserver<Boolean>() {
 
                         @Override
                         public void onComplete() {
@@ -64,14 +63,14 @@ public class CodeScannerViewModel extends AndroidViewModel {
 
                         @Override
                         public void onError(Throwable e) {
-                            Log.e(TAG, "onError: ", e);
+                            Timber.e(e, "onError");
                             errorLiveData.postValue(e);
                         }
 
                         @Override
-                        public void onNext(ReservationEntity value) {
-                            Log.d(TAG, "value : " + value + "; model: " + this);
-                            reservationLiveData.postValue(value);
+                        public void onNext(Boolean value) {
+                            Timber.d("value : %s; model: %s", value, this);
+                            receiveReservationLiveData.postValue(value);
                         }
                     })
             );

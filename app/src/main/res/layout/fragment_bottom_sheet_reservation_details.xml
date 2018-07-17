@@ -2,32 +2,49 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_bottom_sheet_reservation_details_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
+    android:layout_height="wrap_content"
+    android:background="@color/colorSuccess"
+    android:orientation="vertical"
+    android:paddingBottom="8dp"
+    android:paddingEnd="8dp"
+    android:paddingStart="8dp"
+    android:paddingTop="8dp">
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+        android:id="@+id/fragment_bottom_sheet_reservation_details_full_name"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Full Name"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="16dp" />
+        app:layout_constraintBottom_toTopOf="@+id/fragment_bottom_sheet_reservation_details_id"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
+        android:id="@+id/fragment_bottom_sheet_reservation_details_id"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Reservation id"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="63dp" />
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/fragment_bottom_sheet_reservation_details_last_scan"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_bottom_sheet_reservation_details_full_name" />
 
     <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
+        android:id="@+id/fragment_bottom_sheet_reservation_details_last_scan"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Last scan"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="116dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_bottom_sheet_reservation_details_id" />
+
 </android.support.constraint.ConstraintLayout>

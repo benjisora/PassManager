@@ -1,7 +1,5 @@
 package com.bsaugues.passmanager.data.entity.remote;
 
-import com.bsaugues.passmanager.data.entity.PassEntity;
-
 import java.util.ArrayList;
 import java.util.List;
 

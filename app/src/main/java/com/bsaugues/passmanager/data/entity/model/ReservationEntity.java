@@ -1,4 +1,4 @@
-package com.bsaugues.passmanager.data.entity;
+package com.bsaugues.passmanager.data.entity.model;
 
 import java.util.ArrayList;
 import java.util.List;

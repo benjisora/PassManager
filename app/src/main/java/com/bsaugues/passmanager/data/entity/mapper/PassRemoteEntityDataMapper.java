@@ -1,9 +1,8 @@
 package com.bsaugues.passmanager.data.entity.mapper;
 
-import com.bsaugues.passmanager.data.entity.PassEntity;
-import com.bsaugues.passmanager.data.entity.ReservationEntity;
+import com.bsaugues.passmanager.data.entity.model.PassEntity;
 import com.bsaugues.passmanager.data.entity.remote.PassRemoteEntity;
-import com.bsaugues.passmanager.data.entity.remote.ReservationRemoteEntity;
+import com.bsaugues.passmanager.data.exception.MapperException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +21,7 @@ public class PassRemoteEntityDataMapper {
         List<PassEntity> entities = new ArrayList<>();
         if (remoteEntities != null) {
             for (PassRemoteEntity remoteEntity : remoteEntities) {
-                if (remoteEntity != null) {
-                    entities.add(toEntity(remoteEntity));
-                }
+                entities.add(toEntity(remoteEntity));
             }
         }
         return entities;
@@ -37,6 +34,6 @@ public class PassRemoteEntityDataMapper {
             entity.setAmount(remoteEntity.getAmount());
             return entity;
         }
-        return null;
+        throw new MapperException();
     }
 }

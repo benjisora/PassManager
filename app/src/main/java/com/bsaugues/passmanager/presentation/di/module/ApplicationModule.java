@@ -3,6 +3,8 @@ package com.bsaugues.passmanager.presentation.di.module;
 import android.app.Application;
 import android.content.Context;
 
+import com.bsaugues.passmanager.data.manager.CacheManager;
+import com.bsaugues.passmanager.data.manager.CacheManagerImpl;
 import com.bsaugues.passmanager.data.manager.NetManager;
 import com.bsaugues.passmanager.data.manager.NetManagerImpl;
 import com.google.gson.Gson;
@@ -24,6 +26,10 @@ public abstract class ApplicationModule {
     @Singleton
     @Binds
     public abstract NetManager netManager(NetManagerImpl netManager);
+
+    @Singleton
+    @Binds
+    public abstract CacheManager cacheManager(CacheManagerImpl cacheManager);
 
     @Singleton
     @Provides

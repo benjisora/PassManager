@@ -2,4 +2,7 @@
     <string name="app_name">Pass Manager</string>
     <string name="default_error_message">Une erreur est survenue : (%s).</string>
     <string name="error_empty_reservation">Réservation introuvable</string>
+    <string name="reservation_full_name_format">Nom: %s %s</string>
+    <string name="reservation_id_format">Identifiant: %s</string>
+    <string name="reservation_last_scan_format">Dernier scan: %s à %s</string>
 </resources>

@@ -10,7 +10,9 @@ import android.support.design.widget.TextInputLayout;
 import android.view.View;
 
 import com.bsaugues.passmanager.R;
-import com.bsaugues.passmanager.data.entity.ReservationEntity;
+import com.bsaugues.passmanager.data.values.nav.NavEvent;
+import com.bsaugues.passmanager.data.values.nav.NavEventTypeValues;
+import com.bsaugues.passmanager.presentation.component.ErrorRendererComponent;
 import com.bsaugues.passmanager.presentation.viewmodel.CodeScannerViewModel;
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
@@ -19,6 +21,8 @@ import com.budiyev.android.codescanner.ErrorCallback;
 import com.budiyev.android.codescanner.ScanMode;
 import com.google.zxing.Result;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import permissions.dispatcher.NeedsPermission;
@@ -26,6 +30,9 @@ import permissions.dispatcher.RuntimePermissions;
 
 @RuntimePermissions
 public class CodeScannerFragment extends BaseVMFragment<CodeScannerViewModel> implements DecodeCallback, ErrorCallback {
+
+    @Inject
+    ErrorRendererComponent errorRendererComponent;
 
     @BindView(R.id.fragment_number_list_scanner_view)
     CodeScannerView codeScannerView;
@@ -73,21 +80,23 @@ public class CodeScannerFragment extends BaseVMFragment<CodeScannerViewModel> im
 
     @Override
     int getLayoutId() {
-        return R.layout.fragment_number_list;
+        return R.layout.fragment_code_scanner;
     }
 
     @Override
     void initObservers() {
-        viewModel.getReservationLiveData().observe(this, new Observer<ReservationEntity>() {
+        viewModel.getReceiveReservationLiveData().observe(this, new Observer<Boolean>() {
             @Override
-            public void onChanged(@Nullable ReservationEntity reservation) {
-                showReservationDetails(reservation);
+            public void onChanged(@Nullable Boolean received) {
+                if (received != null && received) {
+                    navEvent.postValue(new NavEvent(NavEventTypeValues.DISPLAY_RESERVATION_DETAILS));
+                }
             }
         });
         viewModel.getErrorLiveData().observe(this, new Observer<Throwable>() {
             @Override
             public void onChanged(@Nullable Throwable throwable) {
-                //showInputError(throwable);
+                showError(throwable);
             }
         });
     }
@@ -127,18 +136,6 @@ public class CodeScannerFragment extends BaseVMFragment<CodeScannerViewModel> im
         viewModel.retrieveReservationDetails(id);
     }
 
-    private void showInputError(Throwable e) {
-        if (e != null) {
-            inputLayout.setError(e.getMessage());
-        }
-    }
-
-    private void showReservationDetails(ReservationEntity reservation) {
-        if (reservation != null) {
-            ReservationDetailsBottomSheetFragment.newInstance().show(getActivity().getSupportFragmentManager(), ReservationDetailsBottomSheetFragment.class.getName());
-        }
-    }
-
     @Override
     public void onDecoded(@NonNull Result result) {
         requestReservationDetails(result.getText());
@@ -150,6 +147,6 @@ public class CodeScannerFragment extends BaseVMFragment<CodeScannerViewModel> im
     }
 
     private void showError(Throwable e) {
-
+        errorRendererComponent.displayError(e);
     }
 }

@@ -7,6 +7,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
+import com.bsaugues.passmanager.presentation.navigator.BaseNavigator;
+
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
@@ -18,6 +20,9 @@ public abstract class BaseActivity extends AppCompatActivity implements HasSuppo
 
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentInjector;
+
+    @Inject
+    BaseNavigator baseNavigator;
 
     @CallSuper
     @Override

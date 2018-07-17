@@ -5,9 +5,9 @@ import android.util.Log;
 
 import javax.inject.Inject;
 
-public class MainViewModel extends ViewModel {
+import timber.log.Timber;
 
-    private static final String TAG = "CodeScannerViewModel";
+public class MainViewModel extends ViewModel {
 
     @Inject
     public MainViewModel() {
@@ -16,7 +16,7 @@ public class MainViewModel extends ViewModel {
 
     @Override
     protected void onCleared() {
-        Log.d(TAG, "Activity destroyed, event received in " + this);
+        Timber.d("Activity destroyed, event received in %s", this);
         super.onCleared();
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.bsaugues.passmanager.R;
 import com.bsaugues.passmanager.data.exception.EmptyReservationEntityException;
+import com.bsaugues.passmanager.data.exception.InvalidInputException;
 
 public final class ErrorUtils {
     private ErrorUtils() {
@@ -13,7 +14,7 @@ public final class ErrorUtils {
         String responseString;
         responseString = String.format(context.getString(R.string.default_error_message), throwable.getClass().getSimpleName());
 
-        if (throwable instanceof EmptyReservationEntityException) {
+        if (throwable instanceof EmptyReservationEntityException || throwable instanceof InvalidInputException) {
             responseString = context.getString(R.string.error_empty_reservation);
         }
 

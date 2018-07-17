@@ -17,16 +17,12 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
-import io.reactivex.Observable;
-
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 
 @RunWith(RobolectricTestRunner.class)
@@ -54,17 +50,17 @@ public class CodeScannerViewModelTest {
 
     @Test
     public void testNull() {
-        assertThat(mCodeScannerViewModel.getReservationLiveData(), notNullValue());
-        verify(contentRepository, never()).getReservationDetails(anyString());
+        assertThat(mCodeScannerViewModel.getReceiveReservationLiveData(), notNullValue());
+        verify(contentRepository, never()).receiveReservationDetailsFromServer(anyString());
     }
 
     @Test
     public void sendNumberToUI() {
 //        String expectedValue = "";
-//        mCodeScannerViewModel.getReservationLiveData().observeForever(liveDataObserver);
-//        assertTrue(mCodeScannerViewModel.getReservationLiveData().hasActiveObservers());
+//        mCodeScannerViewModel.getReceiveReservationLiveData().observeForever(liveDataObserver);
+//        assertTrue(mCodeScannerViewModel.getReceiveReservationLiveData().hasActiveObservers());
 //
-//        when(contentRepository.getReservationDetails(anyString())).thenReturn(Observable.just(expectedValue));
+//        when(contentRepository.receiveReservationDetailsFromServer(anyString())).thenReturn(Observable.just(expectedValue));
 //
 //        mCodeScannerViewModel.startNumberCount();
 //
@@ -76,8 +72,8 @@ public class CodeScannerViewModelTest {
     @Test
     public void sendNumberErrorToUI() {
 //        Throwable expectedValue = new RuntimeException();
-//        mCodeScannerViewModel.getReservationLiveData().observeForever(liveDataObserver);
-//        assertTrue(mCodeScannerViewModel.getReservationLiveData().hasActiveObservers());
+//        mCodeScannerViewModel.getReceiveReservationLiveData().observeForever(liveDataObserver);
+//        assertTrue(mCodeScannerViewModel.getReceiveReservationLiveData().hasActiveObservers());
 //
 //        when(contentRepository.getNumberCountObservable()).thenReturn(Observable.<Long>error(expectedValue));
 //

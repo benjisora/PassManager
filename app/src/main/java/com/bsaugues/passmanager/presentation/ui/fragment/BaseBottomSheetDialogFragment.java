@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.design.widget.BottomSheetDialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +17,8 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import dagger.android.support.AndroidSupportInjection;
-import io.reactivex.Single;
 
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseBottomSheetDialogFragment extends BottomSheetDialogFragment {
 
     @Inject
     SingleLiveEvent<NavEvent> navEvent;

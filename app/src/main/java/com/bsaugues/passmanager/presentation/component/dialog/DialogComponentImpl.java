@@ -4,12 +4,10 @@ import android.support.annotation.NonNull;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.bsaugues.passmanager.presentation.di.annotation.PerActivity;
 import com.bsaugues.passmanager.presentation.ui.activity.BaseActivity;
 
 import javax.inject.Inject;
 
-@PerActivity
 public class DialogComponentImpl implements DialogComponent {
 
     private final BaseActivity activity;
