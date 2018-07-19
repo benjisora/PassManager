@@ -2,13 +2,17 @@ package com.bsaugues.passmanager.presentation.ui.fragment;
 
 import android.Manifest;
 import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.bsaugues.passmanager.R;
 import com.bsaugues.passmanager.data.exception.EmptyReservationEntityException;
@@ -17,8 +21,8 @@ import com.bsaugues.passmanager.data.values.nav.NavEventTypeValues;
 import com.bsaugues.passmanager.presentation.component.ErrorRendererComponent;
 import com.bsaugues.passmanager.presentation.component.dialog.DialogComponent;
 import com.bsaugues.passmanager.presentation.component.dialog.DualChoiceListener;
-import com.bsaugues.passmanager.presentation.ui.fragment.listener.BottomSheetListener;
 import com.bsaugues.passmanager.presentation.viewmodel.CodeScannerViewModel;
+import com.bsaugues.passmanager.presentation.viewmodel.SharedBottomSheetViewModel;
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
@@ -38,7 +42,7 @@ import permissions.dispatcher.PermissionRequest;
 import permissions.dispatcher.RuntimePermissions;
 
 @RuntimePermissions
-public class CodeScannerFragment extends BaseVMFragment<CodeScannerViewModel> implements DecodeCallback, ErrorCallback, BottomSheetListener {
+public class CodeScannerFragment extends BaseVMFragment<CodeScannerViewModel> implements DecodeCallback, ErrorCallback {
 
     @Inject
     ErrorRendererComponent errorRendererComponent;
@@ -59,6 +63,8 @@ public class CodeScannerFragment extends BaseVMFragment<CodeScannerViewModel> im
     ProgressBar progressBar;
 
     private CodeScanner codeScanner;
+    private boolean isBottomSheetShowing;
+    private boolean isDataLoading;
 
     public static CodeScannerFragment newInstance() {
         return new CodeScannerFragment();
@@ -68,6 +74,7 @@ public class CodeScannerFragment extends BaseVMFragment<CodeScannerViewModel> im
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         CodeScannerFragmentPermissionsDispatcher.initializeCameraWithPermissionCheck(this);
+        listenKeyboardDone();
     }
 
     @Override
@@ -103,7 +110,9 @@ public class CodeScannerFragment extends BaseVMFragment<CodeScannerViewModel> im
         viewModel.getLoadingStateLiveData().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(@Nullable Boolean isLoading) {
-                showProgressBar(isLoading != null && isLoading);
+                isDataLoading = (isLoading != null && isLoading);
+                showLoading(isDataLoading);
+                applyCameraCallbacksIfAllowed();
             }
         });
         viewModel.getReceiveReservationLiveData().observe(this, new Observer<Boolean>() {
@@ -122,11 +131,23 @@ public class CodeScannerFragment extends BaseVMFragment<CodeScannerViewModel> im
                 showError(throwable);
             }
         });
+
+        SharedBottomSheetViewModel sharedBottomSheetViewModel = ViewModelProviders.of(getActivity()).get(SharedBottomSheetViewModel.class);
+        sharedBottomSheetViewModel.getBottomSheetActiveLiveData().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean isBottomSheetActive) {
+                isBottomSheetShowing = (isBottomSheetActive != null && isBottomSheetActive);
+                if (isBottomSheetShowing) {
+                    input.setText("");
+                }
+                applyCameraCallbacksIfAllowed();
+            }
+        });
     }
 
     @Override
     public void onDecoded(@NonNull Result result) {
-        requestSearchForReservationDetails(result.getText());
+        searchForReservationDetailsById(result.getText());
     }
 
     @Override
@@ -139,11 +160,10 @@ public class CodeScannerFragment extends BaseVMFragment<CodeScannerViewModel> im
         if (getActivity() != null) {
             codeScannerView.setVisibility(View.VISIBLE);
             codeScanner = new CodeScanner(getActivity(), codeScannerView);
-            setCameraCallbacks();
             codeScanner.setCamera(CodeScanner.CAMERA_BACK);
             codeScanner.setFormats(CodeScanner.ALL_FORMATS);
-            //TODO: try to use CONTINUOUS and apply callbacks when BottomSheet dismiss called
             codeScanner.setScanMode(ScanMode.CONTINUOUS);
+            applyCameraCallbacksIfAllowed();
         }
     }
 
@@ -207,32 +227,38 @@ public class CodeScannerFragment extends BaseVMFragment<CodeScannerViewModel> im
     }
 
     @OnClick(R.id.fragment_code_scanner_validate_input_button)
-    public void requestSearchForReservationDetails() {
-        //stopCameraPreview();
-        requestSearchForReservationDetails(input.getText().toString());
+    public void validateInputButtonClick() {
+        searchForReservationDetailsById(input.getText().toString());
     }
 
     @OnClick(R.id.fragment_code_scanner_camera_view)
-    public void requestStartCameraPreview() {
+    public void cameraViewClick() {
         startCameraPreview();
     }
 
-    private void requestSearchForReservationDetails(String id) {
+    private void searchForReservationDetailsById(String id) {
         viewModel.retrieveReservationDetails(id);
+    }
+
+    private void showLoading(boolean show) {
+        if (show) {
+            validateInputButton.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
+        } else {
+            progressBar.setVisibility(View.GONE);
+            validateInputButton.setVisibility(View.VISIBLE);
+        }
     }
 
     private void showError(Throwable e) {
         errorRendererComponent.displayError(e);
     }
 
-    private void showProgressBar(boolean show) {
-        if (show) {
+    private void applyCameraCallbacksIfAllowed() {
+        if (isBottomSheetShowing || isDataLoading) {
             removeCameraCallbacks();
-            validateInputButton.setVisibility(View.GONE);
-            progressBar.setVisibility(View.VISIBLE);
         } else {
-            progressBar.setVisibility(View.GONE);
-            validateInputButton.setVisibility(View.VISIBLE);
+            setCameraCallbacks();
         }
     }
 
@@ -250,8 +276,16 @@ public class CodeScannerFragment extends BaseVMFragment<CodeScannerViewModel> im
         }
     }
 
-    @Override
-    public void onBottomSheetDismissed() {
-        setCameraCallbacks();
+    private void listenKeyboardDone() {
+        input.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    validateInputButtonClick();
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 }

@@ -44,6 +44,7 @@
             android:id="@+id/fragment_code_scanner_input_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:imeOptions="actionDone"
             android:hint="@string/fragment_code_scanner_input_text_hint"
             android:inputType="number" />
 

@@ -4,12 +4,17 @@
     <string name="fragment_code_scanner_input_text_hint">Reservation number</string>
     <string name="fragment_code_scanner_validate_input_button_content">Search</string>
 
-    <string name="default_error_message">An error occurred: (%s).</string>
+    <string name="default_error_message">An error occurred: (%1$s).</string>
     <string name="error_empty_reservation">Reservation not found.</string>
 
-    <string name="reservation_full_name_format">Name: %s %s</string>
-    <string name="reservation_id_format">Identifier: %s</string>
-    <string name="reservation_last_scan_format">Last scan: %s at %s</string>
+    <string name="reservation_full_name_format">Name: %1$s %2$s</string>
+    <string name="reservation_id_format">Identifier: %1$s</string>
+    <string name="reservation_last_scan_format">Last scan: %1$s at %2$s</string>
+
+    <string name="pass_number_type_format">&lt;b>%1$d %2$s&lt;/b> pass</string>
+
+    <string name="pass_type_week_end">week-end</string>
+    <string name="pass_type_single_day">day</string>
 
     <string name="dialog_action_allow">Allow</string>
     <string name="dialog_action_deny">Deny</string>

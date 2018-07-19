@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 import io.reactivex.Observable;
 import retrofit2.Retrofit;
@@ -54,7 +53,7 @@ public class NetManagerImpl implements NetManager {
         remote.setOwnerLastName("Sora");
 
         List<PassRemoteEntity> passList = new ArrayList<>();
-        passList.add(new PassRemoteEntity(PassTypeValues.SINGLE_PASS, 2L));
+        passList.add(new PassRemoteEntity(PassTypeValues.SINGLE_DAY_PASS, 2L));
         passList.add(new PassRemoteEntity(PassTypeValues.WEEK_END_PASS, 1L));
 
         remote.setPassList(passList);

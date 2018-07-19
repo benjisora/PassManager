@@ -27,7 +27,7 @@ public class PassRemoteEntityDataMapper {
         return entities;
     }
 
-    public PassEntity toEntity(PassRemoteEntity remoteEntity) {
+    private PassEntity toEntity(PassRemoteEntity remoteEntity) {
         if (remoteEntity != null) {
             PassEntity entity = new PassEntity();
             entity.setType(remoteEntity.getType());

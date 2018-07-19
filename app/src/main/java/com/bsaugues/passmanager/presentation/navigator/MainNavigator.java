@@ -22,17 +22,13 @@ import javax.inject.Inject;
 @PerActivity
 public class MainNavigator extends BaseNavigator {
 
-    private BottomSheetListener bottomSheetListener;
-
     @Inject
     public MainNavigator(BaseActivity activity, FragmentManager fragmentManager, SingleLiveEvent<NavEvent> navEvent) {
         super(activity, fragmentManager, navEvent);
     }
 
     public void displayCodeScannerFragment() {
-        Fragment fragment = CodeScannerFragment.newInstance();
-        updateListeners(fragment);
-        fragmentManager.beginTransaction().replace(R.id.activity_main_container, fragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.activity_main_container, CodeScannerFragment.newInstance()).commit();
     }
 
     @Override
@@ -44,19 +40,8 @@ public class MainNavigator extends BaseNavigator {
             case OPEN_APP_SETTINGS:
                 openAppSettings();
                 break;
-            case NOTIFY_BOTTOM_SHEET_CLOSED:
-                notifyBottomSheetDismissed();
-                break;
             default:
                 break;
-        }
-    }
-
-    private void updateListeners(Fragment fragment) {
-        if (fragment instanceof BottomSheetListener) {
-            bottomSheetListener = (BottomSheetListener) fragment;
-        } else {
-            bottomSheetListener = null;
         }
     }
 
@@ -72,9 +57,4 @@ public class MainNavigator extends BaseNavigator {
         activity.startActivity(intent);
     }
 
-    private void notifyBottomSheetDismissed() {
-        if (bottomSheetListener != null) {
-            bottomSheetListener.onBottomSheetDismissed();
-        }
-    }
 }
