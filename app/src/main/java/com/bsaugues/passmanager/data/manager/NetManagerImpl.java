@@ -47,17 +47,18 @@ public class NetManagerImpl implements NetManager {
 //                    }
 //                });
 
-        ReservationRemoteEntity remote = new ReservationRemoteEntity();
-        remote.setId(id);
-        remote.setOwnerFirstName("Benji");
-        remote.setOwnerLastName("Sora");
 
-        List<PassRemoteEntity> passList = new ArrayList<>();
-        passList.add(new PassRemoteEntity(PassTypeValues.SINGLE_DAY_PASS, 2L));
-        passList.add(new PassRemoteEntity(PassTypeValues.WEEK_END_PASS, 1L));
 
-        remote.setPassList(passList);
+        ReservationRemoteEntity remote;
+        String json;
 
+        if (id.equals("1234")) {
+            json = "{\"id\":123456789,\"first_name\":\"Tyrion\",\"last_name\":\"Lannister\",\"last_scan\":123456789,\"pass_list\":[{\"type\":\"WEEK_END_PASS\",\"amount\":2},{\"type\":\"SINGLE_DAY_PASS\",\"amount\":1}]}";
+            remote = gson.fromJson(json, ReservationRemoteEntity.class);
+        } else {
+            json = "{\"id\":1234,\"first_name\":\"Jon\",\"last_name\":\"Snow\",\"pass_list\":[{\"type\":\"WEEK_END_PASS\",\"amount\":2},{\"type\":\"SINGLE_DAY_PASS\",\"amount\":1}]}";
+            remote = gson.fromJson(json, ReservationRemoteEntity.class);
+        }
         return Observable.just(remote);
     }
 

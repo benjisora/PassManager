@@ -7,11 +7,14 @@
     <string name="default_error_message">An error occurred: (%1$s).</string>
     <string name="error_empty_reservation">Reservation not found.</string>
 
-    <string name="reservation_full_name_format">Name: %1$s %2$s</string>
-    <string name="reservation_id_format">Identifier: %1$s</string>
+    <string name="reservation_full_name_format">%1$s %2$s</string>
+    <string name="reservation_id_format">Reservation: %1$s</string>
     <string name="reservation_last_scan_format">Last scan: %1$s at %2$s</string>
 
-    <string name="pass_number_type_format">&lt;b>%1$d %2$s&lt;/b> pass</string>
+    <plurals name="pass_number_type_format">
+        <item quantity="one">&lt;b>%1$d %2$s&lt;/b> pass</item>
+        <item quantity="other">&lt;b>%1$d %2$s&lt;/b> passes</item>
+    </plurals>
 
     <string name="pass_type_week_end">week-end</string>
     <string name="pass_type_single_day">day</string>

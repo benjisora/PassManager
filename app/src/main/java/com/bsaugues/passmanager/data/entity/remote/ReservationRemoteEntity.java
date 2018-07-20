@@ -1,14 +1,25 @@
 package com.bsaugues.passmanager.data.entity.remote;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ReservationRemoteEntity {
 
+    @SerializedName("id")
     private String id;
+
+    @SerializedName("first_name")
     private String ownerFirstName;
+
+    @SerializedName("last_name")
     private String ownerLastName;
+
+    @SerializedName("last_scan")
     private Long lastScanDateTimestamp;
+
+    @SerializedName("pass_list")
     private List<PassRemoteEntity> passList;
 
     public ReservationRemoteEntity() {

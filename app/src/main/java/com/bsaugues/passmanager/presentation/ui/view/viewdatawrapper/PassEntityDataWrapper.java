@@ -16,7 +16,7 @@ public class PassEntityDataWrapper {
         this.context = context;
     }
 
-    private long getPassNumber() {
+    private int getPassNumber() {
         return passEntity.getAmount();
     }
 
@@ -33,6 +33,6 @@ public class PassEntityDataWrapper {
     }
 
     public String getFullPassDetailString() {
-        return String.format(context.getString(R.string.pass_number_type_format), getPassNumber(), getPassTypeNameToDisplay());
+        return context.getResources().getQuantityString(R.plurals.pass_number_type_format, getPassNumber(), getPassNumber(), getPassTypeNameToDisplay().toUpperCase());
     }
 }

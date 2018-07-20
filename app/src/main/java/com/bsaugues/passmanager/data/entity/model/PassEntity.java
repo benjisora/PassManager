@@ -5,7 +5,7 @@ import com.bsaugues.passmanager.data.values.PassTypeValues;
 public class PassEntity {
 
     private PassTypeValues type;
-    private Long amount;
+    private Integer amount;
 
     public PassEntity() {
         this.type = PassTypeValues.UNKNOWN;
@@ -19,11 +19,11 @@ public class PassEntity {
         this.type = type;
     }
 
-    public Long getAmount() {
+    public Integer getAmount() {
         return amount;
     }
 
-    public void setAmount(Long amount) {
+    public void setAmount(Integer amount) {
         this.amount = amount;
     }
 }

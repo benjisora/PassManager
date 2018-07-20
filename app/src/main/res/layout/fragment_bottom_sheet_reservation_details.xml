@@ -6,12 +6,26 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="bottom"
+    android:background="@drawable/rounded_corners_bottom_sheet_success"
     android:orientation="vertical"
     android:paddingBottom="8dp"
     android:paddingEnd="8dp"
     android:paddingStart="8dp"
-    android:paddingTop="8dp"
-    android:background="@drawable/rounded_corners_bottom_sheet_success">
+    android:paddingTop="8dp">
+
+    <TextView
+        android:id="@+id/fragment_bottom_sheet_reservation_details_last_scan"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:textSize="20sp"
+        android:layout_marginTop="8dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/fragment_bottom_sheet_reservation_details_full_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@tools:sample/date/ddmmyy" />
 
     <TextView
         android:id="@+id/fragment_bottom_sheet_reservation_details_full_name"
@@ -22,7 +36,7 @@
         app:layout_constraintBottom_toTopOf="@+id/fragment_bottom_sheet_reservation_details_id"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_bottom_sheet_reservation_details_last_scan"
         tools:text="@tools:sample/full_names" />
 
     <TextView
@@ -41,24 +55,11 @@
         android:id="@+id/fragment_bottom_sheet_reservation_details_pass_recyclerview"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/fragment_bottom_sheet_reservation_details_last_scan"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fragment_bottom_sheet_reservation_details_id"
         tools:itemCount="2"
         tools:listitem="@layout/recyclerview_pass_item" />
-
-    <TextView
-        android:id="@+id/fragment_bottom_sheet_reservation_details_last_scan"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_bottom_sheet_reservation_details_pass_recyclerview"
-        tools:text="@tools:sample/date/ddmmyy" />
 
 </android.support.constraint.ConstraintLayout>

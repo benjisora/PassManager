@@ -13,7 +13,7 @@ import java.util.TimeZone;
 public class DateFormatUtils {
     private static final String GMT_TIMEZONE = "GMT";
     private static final String JSON_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
-    private static final String DAY_DATE_FORMAT = "E d M yyyy";
+    private static final String DAY_DATE_FORMAT = "E dd/MM/yyyy";
     private static final String HOUR_DATE_FORMAT = "HH:mm";
 
     private DateFormatUtils() {
